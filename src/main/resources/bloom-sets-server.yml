@@ -1,0 +1,25 @@
+server:
+  type: default
+  applicationConnectors:
+  - type: http 
+    port: ${PORT!18080}
+    idleTimeout: 120 seconds
+  adminConnectors:
+  - type: http
+    port: ${ADMIN_PORT!18081}
+  requestLog:
+    appenders: []
+redisUrl: ${REDIS_URL!"localhost:26379"}
+logging:
+  level: INFO
+  loggers:
+    sn.analytics: INFO
+  appenders:
+    - type: file
+      threshold: INFO
+      logFormat: "%-6level [%d{HH:mm:ss.SSS}] [%t] %logger{5} - %X{code} %msg %n"
+      currentLogFilename: /tmp/application-${PORT!18080}.log
+      archivedLogFilenamePattern: /tmp/application-${PORT!18080}-%d{yyyy-MM-dd}-%i.log.gz
+      archivedFileCount: 5
+      timeZone: UTC
+      maxFileSize: 10MB
